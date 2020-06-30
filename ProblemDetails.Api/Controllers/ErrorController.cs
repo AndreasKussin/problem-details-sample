@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using ProblemDetails.Api.Infrastructure;
 
 
@@ -11,6 +12,19 @@ namespace ProblemDetails.Api.Controllers
     [ApiExplorerSettings(IgnoreApi = true)]
     public class ErrorController : ControllerBase
     {
+        private readonly ILogger<ErrorController> logger;
+
+
+        public ErrorController(ILogger<ErrorController> logger)
+        {
+            this.logger = logger;
+        }
+
+
+        /// <summary>
+        /// Handles all unhandled errors.
+        /// </summary>
+        /// <returns></returns>
         [Route("/error")]
         public IActionResult Error()
         {
@@ -26,6 +40,8 @@ namespace ProblemDetails.Api.Controllers
                 Instance = feature.Path,
                 ErrorCode = "500"
             };
+
+            logger.LogError(feature.Error, $"An unhandled exception happend: {feature.Error.Message}");
 
             return new ObjectResult(error)
             {

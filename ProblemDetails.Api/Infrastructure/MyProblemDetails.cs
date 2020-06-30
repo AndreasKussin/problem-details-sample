@@ -8,8 +8,16 @@ namespace ProblemDetails.Api.Infrastructure
     /// </summary>
     public class MyProblemDetails : Microsoft.AspNetCore.Mvc.ProblemDetails
     {
+        /// <summary>
+        /// Custom error code. Use simple number or any other preferred format.
+        /// Each error type should have his own error code.
+        /// </summary>
         public string ErrorCode { get; set; }
 
+        /// <summary>
+        /// Unique identifier of a request. The correlation id should be set in client app to track 
+        /// full client-server communication.
+        /// </summary>
         public string CorrelationId { get; set; }
 
 

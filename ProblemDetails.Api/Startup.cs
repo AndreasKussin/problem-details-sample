@@ -14,6 +14,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using ProblemDetails.Api.Infrastructure;
 using ProblemDetails.Api.Middleware;
+using System.IO;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Reflection;
 
 
 namespace ProblemDetails.Api
@@ -124,6 +127,9 @@ namespace ProblemDetails.Api
 
                 c.AddSecurityDefinition("Bearer", scheme);
 
+                // Set the comments path for the Swagger JSON and UI.
+                SetXMLDocumentationPath($"{Assembly.GetExecutingAssembly().GetName().Name}.xml", c);
+
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     { scheme, Array.Empty<string>() }
@@ -192,12 +198,19 @@ namespace ProblemDetails.Api
                 }
                 catch (Exception ex)
                 {
-                    //Logger.LogErrorDcc(ex, ex.Message);
-
-                    //// We have to handle the exception otherwise the framework is going to throw an unhandled exception:
-                    //// "Connection id "xxxx", Request id "xxxx:xxxx": An unhandled exception was thrown by the application."
-                    //ctx.Fail("Setting user principal failed.");
+                    var logger = ctx.HttpContext.RequestServices.GetRequiredService<ILogger<JwtEventHelper>>();
+                    logger.LogError(ex, "Setting user principal failed.");
+                    ctx.Fail("Setting user principal failed.");
                 }
+            }
+        }
+
+
+        public void SetXMLDocumentationPath(string fileName, SwaggerGenOptions swaggerOptions)
+        {
+            if (!string.IsNullOrWhiteSpace(fileName))
+            {
+                swaggerOptions.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, fileName));
             }
         }
     }

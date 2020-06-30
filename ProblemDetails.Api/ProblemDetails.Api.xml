@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ProblemDetails.Api</name>
+    </assembly>
+    <members>
+        <member name="M:ProblemDetails.Api.Controllers.ErrorController.Error">
+            <summary>
+            Handles all unhandled errors.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ProblemDetails.Api.Controllers.TestAuthenticationController.Get">
+            <summary>
+            User have to be authenticated otherwise an Unauthorized will be returned.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ProblemDetails.Api.Controllers.TestController.Get">
+            <summary>
+            Simulates a successful request and returns Ok.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ProblemDetails.Api.Controllers.TestController.Get(System.String)">
+            <summary>
+            Simulates a request with invalid or missing parameters and returns a Bad Request.
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ProblemDetails.Api.Controllers.TestController.Post">
+            <summary>
+            Simulates an internal server error.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ProblemDetails.Api.Infrastructure.JwtEventHelper.AuthenticationFailed(Microsoft.AspNetCore.Authentication.JwtBearer.AuthenticationFailedContext)">
+            <summary>
+            Returns an error message if authentication failed.
+            </summary>
+            <param name="arg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ProblemDetails.Api.Infrastructure.JwtEventHelper.ChallengeFailedResponse(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerChallengeContext)">
+            <summary>
+            Returns an error message if the jwt token is missing or the token validation failed.
+            </summary>
+            <param name="arg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ProblemDetails.Api.Infrastructure.JwtEventHelper.AuthorizationFailed(Microsoft.AspNetCore.Authentication.JwtBearer.ForbiddenContext)">
+            <summary>
+            Returns an error message if authorization failed.
+            </summary>
+            <param name="arg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ProblemDetails.Api.Infrastructure.JwtEventHelper.WriteResponse(ProblemDetails.Api.Infrastructure.MyProblemDetails,Microsoft.AspNetCore.Http.HttpResponse,System.Int32)">
+            <summary>
+            Adds problem details to response.
+            </summary>
+            <param name="error"></param>
+            <param name="response"></param>
+            <param name="code"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ProblemDetails.Api.Infrastructure.MyProblemDetails">
+            <summary>
+            Extends the default problem details class with additional custom properties
+            </summary>
+        </member>
+        <member name="P:ProblemDetails.Api.Infrastructure.MyProblemDetails.ErrorCode">
+            <summary>
+            Custom error code. Use simple number or any other preferred format.
+            Each error type should have his own error code.
+            </summary>
+        </member>
+        <member name="P:ProblemDetails.Api.Infrastructure.MyProblemDetails.CorrelationId">
+            <summary>
+            Unique identifier of a request. The correlation id should be set in client app to track 
+            full client-server communication.
+            </summary>
+        </member>
+        <member name="M:ProblemDetails.Api.Infrastructure.MyProblemDetails.GetCorrelationId(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Retrieves the correlation id
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ProblemDetails.Api.Infrastructure.MyTelemetryInitializer.OnInitializeTelemetry(Microsoft.AspNetCore.Http.HttpContext,Microsoft.ApplicationInsights.DataContracts.RequestTelemetry,Microsoft.ApplicationInsights.Channel.ITelemetry)">
+            <summary>
+            Adds additional information (e.g. correlation id) to application insights for request logging.
+            </summary>
+            <param name="platformContext"></param>
+            <param name="requestTelemetry"></param>
+            <param name="telemetry"></param>
+        </member>
+        <member name="M:ProblemDetails.Api.Startup.SetPrincipal(Microsoft.AspNetCore.Authentication.JwtBearer.TokenValidatedContext)">
+            <summary>
+            Sets the user principal
+            </summary>
+            <param name="ctx"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

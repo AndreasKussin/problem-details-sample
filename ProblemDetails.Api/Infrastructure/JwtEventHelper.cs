@@ -111,6 +111,13 @@ namespace ProblemDetails.Api.Infrastructure
         }
 
 
+        /// <summary>
+        /// Adds problem details to response.
+        /// </summary>
+        /// <param name="error"></param>
+        /// <param name="response"></param>
+        /// <param name="code"></param>
+        /// <returns></returns>
         private static async Task WriteResponse(MyProblemDetails error, HttpResponse response, int code)
         {
             var message = JsonSerializer.Serialize(error);

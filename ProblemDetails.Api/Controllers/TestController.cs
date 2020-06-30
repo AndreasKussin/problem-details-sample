@@ -11,19 +11,26 @@ namespace ProblemDetails.Api.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
+        /// <summary>
+        /// Simulates a successful request and returns Ok.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<string>> Get()
         {
-            // Simulate successful request
             return Ok("Success");
-            
         }
 
-
+        /// <summary>
+        /// Simulates a request with invalid or missing parameters and returns a Bad Request.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [HttpGet("{value}", Name = "Get")]
+        [ProducesResponseType(typeof(MyProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<string>> Get(string value)
         {
-            // Simulate request with invalid parameters
             var error = new MyProblemDetails(HttpContext)
             {
                 Title = "Test Error",
@@ -34,14 +41,17 @@ namespace ProblemDetails.Api.Controllers
             };
 
             return BadRequest(error);
-            
         }
 
 
+        /// <summary>
+        /// Simulates an internal server error.
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(typeof(MyProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<bool>> Post()
         {
-            // Simulate internal server error
             throw new NullReferenceException("Some error message");
         }
     }
